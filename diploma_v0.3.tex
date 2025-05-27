@@ -1,0 +1,863 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% datoteka diploma-FRI-vzorec.tex
+%
+%POZOR: ta verzija ne producira pdf datoteke v pdf/A formatu!!!
+%namenjena je le za nalogo pri Diplomskem seminarju!
+%
+% vzorčna datoteka za pisanje diplomskega dela v formatu LaTeX
+% na UL Fakulteti za računalništvo in informatiko
+%
+% na osnovi starejših verzij vkup spravil Franc Solina, maj 2021
+% prvo verzijo je leta 2010 pripravil Gašper Fijavž
+%
+% za upravljanje z literaturo ta vezija uporablja BibLaTeX
+%
+% svetujemo uporabo Overleaf.com - na tej spletni implementaciji LaTeXa ta vzorec zagotovo pravilno deluje
+%
+
+\documentclass[a4paper,12pt,openright]{book}
+%\documentclass[a4paper, 12pt, openright, draft]{book}  Nalogo preverite tudi z opcijo draft, ki pokaže, katere vrstice so predolge! Pozor, v draft opciji, se slike ne pokažejo!
+ 
+\usepackage[utf8]{inputenc}   % omogoča uporabo slovenskih črk kodiranih v formatu UTF-8
+\usepackage[slovene,english]{babel}    % naloži, med drugim, slovenske delilne vzorce
+\usepackage[pdftex]{graphicx}  % omogoča vlaganje slik različnih formatov
+\usepackage{fancyhdr}          % poskrbi, na primer, za glave strani
+\usepackage{amssymb}           % dodatni matematični simboli
+\usepackage{amsmath}           % eqref, npr.
+\usepackage{hyperxmp}
+\usepackage[hyphens]{url}
+\usepackage{csquotes}
+\usepackage[pdftex, colorlinks=true,
+						citecolor=black, filecolor=black, 
+						linkcolor=black, urlcolor=black,
+						pdfproducer={LaTeX}, pdfcreator={LaTeX}]{hyperref}
+
+\usepackage{color}
+\usepackage{soul}
+
+\usepackage[
+backend=biber,
+style=numeric,
+sorting=nty,
+]{biblatex}
+
+
+\addbibresource{literatura.bib} %Imports bibliography file
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	DIPLOMA INFO
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\ttitle}{Analiza stanja digitalizacije slovenskega lovstva}
+\newcommand{\ttitleEn}{Analysis of the state of digitalization of slovenian hunting?}
+\newcommand{\tsubject}{\ttitle}
+\newcommand{\tsubjectEn}{\ttitleEn}
+\newcommand{\tauthor}{Urh Rozman}
+\newcommand{\tkeywords}{računalnik, IT, lovstvo}
+\newcommand{\tkeywordsEn}{computer, IT, hunting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%	HYPERREF SETUP
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\hypersetup{pdftitle={\ttitle}}
+\hypersetup{pdfsubject=\ttitleEn}
+\hypersetup{pdfauthor={\tauthor}}
+\hypersetup{pdfkeywords=\tkeywordsEn}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% postavitev strani
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+
+\addtolength{\marginparwidth}{-20pt} % robovi za tisk
+\addtolength{\oddsidemargin}{40pt}
+\addtolength{\evensidemargin}{-40pt}
+
+\renewcommand{\baselinestretch}{1.3} % ustrezen razmik med vrsticami
+\setlength{\headheight}{15pt}        % potreben prostor na vrhu
+\renewcommand{\chaptermark}[1]%
+{\markboth{\MakeUppercase{\thechapter.\ #1}}{}} \renewcommand{\sectionmark}[1]%
+{\markright{\MakeUppercase{\thesection.\ #1}}} \renewcommand{\headrulewidth}{0.5pt} \renewcommand{\footrulewidth}{0pt}
+\fancyhf{}
+\fancyhead[LE,RO]{\sl \thepage} 
+%\fancyhead[LO]{\sl \rightmark} \fancyhead[RE]{\sl \leftmark}
+\fancyhead[RE]{\sc \tauthor}              % dodal Solina
+\fancyhead[LO]{\sc Diplomska naloga}     % dodal Solina
+
+
+\newcommand{\BibLaTeX}{{\sc Bib}\LaTeX}
+\newcommand{\BibTeX}{{\sc Bib}\TeX}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% naslovi
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+
+\newcommand{\autfont}{\Large}
+\newcommand{\titfont}{\LARGE\bf}
+\newcommand{\clearemptydoublepage}{\newpage{\pagestyle{empty}\cleardoublepage}}
+\setcounter{tocdepth}{1}	      % globina kazala
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% konstrukti
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+\newtheorem{izrek}{Izrek}[chapter]
+\newtheorem{trditev}{Trditev}[izrek]
+\newenvironment{dokaz}{\emph{Dokaz.}\ }{\hspace{\fill}{$\Box$}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% PDF-A
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+% define medatata
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\def\Title{\ttitle}
+\def\Author{\tauthor, matjaz.kralj@fri.uni-lj.si}
+\def\Subject{\ttitleEn}
+\def\Keywords{\tkeywordsEn}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+% \convertDate converts D:20080419103507+02'00' to 2008-04-19T10:35:07+02:00
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\def\convertDate{%
+    \getYear
+}
+
+{\catcode`\D=12
+ \gdef\getYear D:#1#2#3#4{\edef\xYear{#1#2#3#4}\getMonth}
+}
+\def\getMonth#1#2{\edef\xMonth{#1#2}\getDay}
+\def\getDay#1#2{\edef\xDay{#1#2}\getHour}
+\def\getHour#1#2{\edef\xHour{#1#2}\getMin}
+\def\getMin#1#2{\edef\xMin{#1#2}\getSec}
+\def\getSec#1#2{\edef\xSec{#1#2}\getTZh}
+\def\getTZh +#1#2{\edef\xTZh{#1#2}\getTZm}
+\def\getTZm '#1#2'{%
+    \edef\xTZm{#1#2}%
+    \edef\convDate{\xYear-\xMonth-\xDay T\xHour:\xMin:\xSec+\xTZh:\xTZm}%
+}
+
+%\expandafter\convertDate\pdfcreationdate 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% get pdftex version string
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\newcount\countA
+\countA=\pdftexversion
+\advance \countA by -100
+\def\pdftexVersionStr{pdfTeX-1.\the\countA.\pdftexrevision}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% XMP data
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+\usepackage{xmpincl}
+%\includexmp{pdfa-1b}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% pdfInfo
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+\pdfinfo{%
+    /Title    (\ttitle)
+    /Author   (\tauthor, damjan@cvetan.si)
+    /Subject  (\ttitleEn)
+    /Keywords (\tkeywordsEn)
+    /ModDate  (\pdfcreationdate)
+    /Trapped  /False
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% znaki za copyright stran
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  
+
+\newcommand{\CcImageCc}[1]{%
+	\includegraphics[scale=#1]{cc_cc_30.pdf}%
+}
+\newcommand{\CcImageBy}[1]{%
+	\includegraphics[scale=#1]{cc_by_30.pdf}%
+}
+\newcommand{\CcImageSa}[1]{%
+	\includegraphics[scale=#1]{cc_sa_30.pdf}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\selectlanguage{slovene}
+\frontmatter
+\setcounter{page}{1} %
+\renewcommand{\thepage}{}       % preprečimo težave s številkami strani v kazalu
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%naslovnica
+ \thispagestyle{empty}%
+   \begin{center}
+    {\large\sc Univerza v Ljubljani\\%
+%      Fakulteta za elektrotehniko\\% za študijski program Multimedija
+%      Fakulteta za upravo\\% za študijski program Upravna informatika
+      Fakulteta za računalništvo in informatiko\\%
+      Fakulteta za matematiko in fiziko\\% za študijski program Računalništvo in matematika
+     }
+    \vskip 10em%
+    {\autfont \tauthor\par}%
+    {\titfont \ttitle \par}%
+    {\vskip 3em \textsc{DIPLOMSKO DELO\\[5mm]         % dodal Solina za ostale študijske programe
+%    VISOKOŠOLSKI STROKOVNI ŠTUDIJSKI PROGRAM\\ PRVE STOPNJE\\ RAČUNALNIŠTVO IN INFORMATIKA}\par}%
+     UNIVERZITETNI  ŠTUDIJSKI PROGRAM\\ PRVE STOPNJE\\ RAČUNALNIŠTVO IN INFORMATIKA}\par}%
+%    INTERDISCIPLINARNI UNIVERZITETNI\\ ŠTUDIJSKI PROGRAM PRVE STOPNJE\\ MULTIMEDIJA}\par}%
+%    INTERDISCIPLINARNI UNIVERZITETNI\\ ŠTUDIJSKI PROGRAM PRVE STOPNJE\\ UPRAVNA INFORMATIKA}\par}%
+%    INTERDISCIPLINARNI UNIVERZITETNI\\ ŠTUDIJSKI PROGRAM PRVE STOPNJE\\ RAČUNALNIŠTVO IN MATEMATIKA}\par}%
+    \vfill\null%
+% izberite pravi habilitacijski naziv mentorja!
+    {\large \textsc{Mentor}: viš. pred./doc./izr. prof./prof. dr. Peter Klepec\par}%
+   {\large \textsc{Somentor}:  viš. pred./doc./izr. prof./prof. dr.  Martin Krpan \par}%
+    {\vskip 2em \large Ljubljana, \the\year \par}%
+\end{center}
+% prazna stran
+%\clearemptydoublepage      
+% izjava o licencah itd. se izpiše na hrbtni strani naslovnice
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%copyright stran
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\thispagestyle{empty}
+
+\vspace*{5cm}
+{\small \noindent
+To delo je ponujeno pod licenco \textit{Creative Commons Priznanje avtorstva-Deljenje pod enakimi pogoji 2.5 Slovenija} (ali novej\v so razli\v cico).
+To pomeni, da se tako besedilo, slike, grafi in druge sestavine dela kot tudi rezultati diplomskega dela lahko prosto distribuirajo,
+reproducirajo, uporabljajo, priobčujejo javnosti in predelujejo, pod pogojem, da se jasno in vidno navede avtorja in naslov tega
+dela in da se v primeru spremembe, preoblikovanja ali uporabe tega dela v svojem delu, lahko distribuira predelava le pod
+licenco, ki je enaka tej.
+Podrobnosti licence so dostopne na spletni strani \href{http://creativecommons.si}{creativecommons.si} ali na Inštitutu za
+intelektualno lastnino, Streliška 1, 1000 Ljubljana.
+
+\vspace*{1cm}
+\begin{center}% 0.66 / 0.89 = 0.741573033707865
+\CcImageCc{0.741573033707865}\hspace*{1ex}\CcImageBy{1}\hspace*{1ex}\CcImageSa{1}%
+\end{center}
+}
+
+\vspace*{1cm}
+{\small \noindent
+Izvorna koda diplomskega dela, njeni rezultati in v ta namen razvita programska oprema je ponujena pod licenco GNU General Public License,
+različica 3 (ali novejša). To pomeni, da se lahko prosto distribuira in/ali predeluje pod njenimi pogoji.
+Podrobnosti licence so dostopne na spletni strani \url{http://www.gnu.org/licenses/}.
+}
+
+\vfill
+\begin{center} 
+\ \\ \vfill
+{\em
+Besedilo je oblikovano z urejevalnikom besedil \LaTeX.}
+\end{center}
+
+% prazna stran
+\clearemptydoublepage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% stran 3 med uvodnimi listi
+\thispagestyle{empty}
+\
+\vfill
+
+\bigskip
+\noindent\textbf{Kandidat:} Urh Rozman\\
+\noindent\textbf{Naslov:} Analiza stanja digitalizacije slovenskega lovstva\\
+% vstavite ustrezen naziv študijskega programa!
+\noindent\textbf{Vrsta naloge:} Diplomska naloga na univerzitetnem programu prve stopnje Interdisciplinarni študij računalništva in matematike \\
+% izberite pravi habilitacijski naziv mentorja!
+\noindent\textbf{Mentor:} doc. dr. Rok Rupnik\\
+\noindent\textbf{Somentor:} doc. dr. Rok Rupnik?
+
+\bigskip
+\noindent\textbf{Opis:}\\
+Besedilo teme diplomskega dela študent prepiše iz študijskega informacijskega sistema, kamor ga je vnesel mentor. 
+V nekaj stavkih bo opisal, kaj pričakuje od kandidatovega diplomskega dela. 
+Kaj so cilji, kakšne metode naj uporabi, morda bo zapisal tudi ključno literaturo.
+
+\bigskip
+\noindent\textbf{Title:} 
+
+
+\bigskip
+\noindent\textbf{Description:}\\
+opis diplome v angleščini
+
+\vfill
+
+
+
+\vspace{2cm}
+
+% prazna stran
+\clearemptydoublepage
+
+% zahvala
+\thispagestyle{empty}\mbox{}\vfill\null\it%
+\noindent
+Na tem mestu zapišite, komu se zahvaljujete za pomoč pri izdelavi diplomske naloge oziroma pri vašem študiju nasploh. Pazite, da ne boste koga pozabili. Utegnil vam bo zameriti. Temu se da izogniti tako, da celotno zahvalo izpustite.
+\rm\normalfont
+
+% prazna stran
+\clearemptydoublepage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% posvetilo, če sama zahvala ne zadošča :-)
+\thispagestyle{empty}\mbox{}{\vskip0.20\textheight}\mbox{}\hfill\begin{minipage}{0.55\textwidth}%
+Svoji dragi Alenčici.
+\normalfont\end{minipage}
+
+% prazna stran
+\clearemptydoublepage
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% kazalo
+\pagestyle{empty}
+\def\thepage{}% preprečimo težave s številkami strani v kazalu
+\tableofcontents{}
+
+
+% prazna stran
+\clearemptydoublepage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% seznam kratic
+
+\chapter*{Seznam uporabljenih kratic}
+
+\noindent\begin{tabular}{p{0.11\textwidth}|p{.39\textwidth}|p{.39\textwidth}}    % po potrebi razširi prvo kolono tabele na račun drugih dveh!
+  {\bf kratica} & {\bf angleško}                              & {\bf slovensko} \\ \hline
+  {\bf CA}      & classification accuracy               & klasifikacijska točnost \\
+  {\bf DBMS} & database management system & sistem za upravljanje podatkovnih baz \\
+  {\bf SVM}   & support vector machine              & metoda podpornih vektorjev \\
+%  \dots & \dots & \dots \\
+\end{tabular}
+
+
+% prazna stran
+\clearemptydoublepage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% povzetek
+\addcontentsline{toc}{chapter}{Povzetek}
+\chapter*{Povzetek}
+
+\noindent\textbf{Naslov:} \ttitle
+\bigskip
+
+\noindent\textbf{Avtor:} \tauthor
+\bigskip
+
+%\noindent\textbf{Povzetek:} 
+\noindent V vzorcu je predstavljen postopek priprave diplomskega dela z uporabo okolja \LaTeX. Vaš povzetek mora sicer vsebovati približno 100 besed, ta tukaj je odločno prekratek.
+Dober povzetek vključuje: (1) kratek opis obravnavanega problema, (2) kratek opis vašega pristopa za reševanje tega problema in (3) (najbolj uspešen) rezultat ali prispevek diplomske naloge.
+
+\bigskip
+
+\noindent\textbf{Ključne besede:} \tkeywords.
+% prazna stran
+\clearemptydoublepage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% abstract
+\selectlanguage{english}
+\addcontentsline{toc}{chapter}{Abstract}
+\chapter*{Abstract}
+
+\noindent\textbf{Title:} \ttitleEn
+\bigskip
+
+\noindent\textbf{Author:} \tauthor
+\bigskip
+
+%\noindent\textbf{Abstract:} 
+\noindent This sample document presents an approach to typesetting your BSc thesis using \LaTeX. 
+A proper abstract should contain around 100 words which makes this one way too short.
+\bigskip
+
+\noindent\textbf{Keywords:} \tkeywordsEn.
+\selectlanguage{slovene}
+% prazna stran
+\clearemptydoublepage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mainmatter
+\setcounter{page}{1}
+\pagestyle{fancy}
+
+\chapter{Uvod}
+\label{start}
+
+\section{Metodologija dela}
+
+\section{Struktura diplome}
+
+\chapter{Lovstvo v Sloveniji}
+\label{zgodovina}
+
+\section{Zgodovina lovstva na Slovenskem}
+
+\subsection{Začetki lova}
+
+Začetek lova v Sloveniji sega vse do mlajšega pleistocena (120 do 130 tisoč let pred našim štetjem). 
+Prvi dokazi o obstoju lovstva na ozemlju Slovenije so iz starejše kamene dobe. Vemo, da so prvi lovci za orožje uporabljali odkrhek kamna, ki so ga držali v rokah. 
+V mlajšem paleolitiku so že obstajali specializirani načini lovov za posamezne vrste divjadi, v mezolitiku pa so že udomačili pse in začeli loviti z lokom in puščicami. 
+S časom je lov postal sekundaren način pridobivanja hrane. 
+V Sloveniji imamo dokaze o razcvetu poljedelstva šele v bronasti dobi. Začenjala se je tudi stratifikacija družbe (nastanek družbenih slojev), kjer so si posamezniki višjih slojev prilastili pravice za lov. 
+Rimljani so na začetku lov izvajali peš s kopji in psi, nato pa razvili različne načine lova pridobljene z izkušnjami drugih civilizacij (Ilirov, Keltov, Tračanov …). 
+V rimskem pravu so šteli divjad za nikogaršnjo lastnina oz. »res nullis«, zato je lahko lovil vsak.
+
+V 6. stoletju, ko so Slovani naselili v Slovenijo, je bila zemlja v lasti posameznih družin. 
+Lovska pravica je bila povezana z zemljiško lastnino. 
+V fevdalizmu je kralj imel v lasti vse, kar ni imelo lastnine, torej tudi divjad. Zemlja je bila od vladarja predana plemičem, cerkvenim oblastem in samostanom. 
+Vladar pa je še vedno imel pravico lova na vsem ozemlju. Plemiči na Slovenskem so bili Franki ali pa Bavarci. 
+Ekskluzivna lovska pravica vladarja in plemičev je bila sprva omejena samo za določene živali, to so živali visokega lova (jelenjad, damjak in divji prašiči). 
+Plemiči tudi niso smeli oddajati lovišč visokega lova v zakup osebam neplemenitega rodu. Za zavarovanje lovskih pravic so se izdajali mnogi lovski predpisi. 
+Nekateri so bili splošno veljavni, drugi so veljali le v določenih območjih. 
+Na Štajerskem, na primer, je veljalo, da je bil mali lov dovoljen samo plemičem, medtem ko je bil lov prepovedan podložnikom, kmetom in ostalim osebam neplemenitega rodu. 
+Za prekrške lovskih zakonov so bile predpisane hude kazni, kot so izgon iz dežele, sramotilni steber (pranger) ali delo na galeji.
+
+Janez Vajkard Valvasor, avtor Slave vojvodine Kranjske, nam je ohranil iz časa druge polovice 17. stoletja številne podatke in opise divjadi, gozdov in lova. 
+Na območju današnje Slovenije naj bi živelo mnogo jelenjadi in divjih prašičev, poleg tega tudi zverjad, kot so medved, volk in ris. Po Valvasorju naj bi volkovi povzročali veliko škode kmetom, saj so jim napadali konje, drobnico in druge živali. 
+Pozimi leta 1655 se je celo zgodilo, da so volkovi ubili celo ljudi. V posebej podrobnem detajlu je Valvasor opisal Cerkniško jezero ter njeno. 
+Posebej je opisal  majhne črne račke in polhe, ki so jih lovili s suknjami ter pobijali s škornji.
+
+SLIKA RIMLJANSKE SLIKE IZ MUZEJA ALI IZ ČASA VALVAZORJA ALI SREDNJEGA VEKA !!!!!!!!!!!
+
+\subsection{Lovstvo od druge polovice 19. stoletja do prve svetovne vojne}
+
+Na dražbah občinskih lovišč so zmagovali bogati posestniki, industrialci, obrtniki in visoki uradniki. 
+Posamezniki, ki so kljub manjšemu bogastvu želeli imeti pravico do lova, so se združevali v lovske klube, družbe in društva. 
+Ti so bili po navadi organizirani samo za eno zakupno dobo. 
+Taka društva so delovala po določbah družabne pogodbe, kjer so bili vsi člani sozakupniki lovišča. 
+Društva je urejal avstrijski državni zakon iz leta 1867, ki je zahteval le, da so v treh dneh prijavili svojo ustanovitev ter jim posredovali pravila društva in seznam društvenih funkcionarjev. 
+Iz zgodovine so poznana Lovsko društvo Vrhnika, Lovska družba Novo mesto, Lovski klub v Ribnici …
+
+Dr. Ivan Lovrenčič je na sestanku leta 1907, predlagal ustanovitev organizacije za vse slovenske lovce. 
+Lovska organizacija bi skrbela za izobraževanje lovcev, izdajanje svojega glasila, razvoj kinologije (vede o psih) in na splošno za skupne interese lovcev. 
+Dr. Ivan Lovrenčič je bil tudi prepričan, da mora biti lovec zaščitnik narave in poskrbeti, da način lova ni samo užitek, ampak tudi varstvo okolja. 
+Prvi predsednik Slovenskega lovskega kluba je bil takratni ljubljanski župan Ivan Hribar, podpredsednik pa dr. Ivan Lovrenčič. 
+Za društveni znak so predstavniki kluba izbrali motiv Zlatoroga, leta 1910 pa je začelo izhajati glasilo Lovec. 
+Takratni klerikalno usmerjeni posamezniki so ustanoviteljem kluba očitali preveliko zaščito zajca, zaradi škode, ki jo je povzročal kmetijstvu. 
+Leta 1909 so Slovenski lovski klub preoblikovali v Slovensko lovsko društvo, kjer so med drugim povečali število odbornikov. 
+Delovanje društva je bilo prekinjeno z začetkom prve svetovne vojne.
+
+DR IVAN LOVRENČIČ ALI LOVEC GLASILO ALI ICONA SLOVENSKEGA LOVSKEGA KLUBA !!!!!!!!!!!!!
+
+\subsection{Medvojno obdobje}
+
+Po prvi svetovni vojni so še veljali avstro-ogrski lovski predpisi, zato je bilo v Sloveniji še vedno pet različnih lovskih zakonodaj. 
+Zaradi tega je prišlo do velikih težav. 
+Birokrati niso poznali vseh predpisov, zato je prišlo do raznih zmed, še posebej, če so lovci lovili v območjih z različnimi zakonodajami. 
+Po koncu vojne so mnogi ljudje ohranili svoja orožja in je prišlo do razcveta divjega lovstva, kar je tudi povzročilo povečanje števila prijavljenega lovsko varstvenega osebja. Lastniki lovišč so pogosto zaposlili svoje sorodnike kot lovske čuvaje in jih posledično niso bili dolžni plačati. 
+Slovensko lovsko društvo se je v tem času zavzemalo za učinkovito čuvajsko službo in predlagalo, naj bi bilo čuvajem prepovedano streljati koristno divjad, za ubito škodljivo divjad pa naj obstajajo denarne nagrade. 
+Zaradi divjega lova in mnogih ostalih razlogov je takratno Ministrstvo za notranje zadeve prepovedalo posest vojaškega in civilnega orožja, kar je vključevalo tudi lovske puške.
+
+Leta 1919 so bile uvedene lovske karte za celotno slovensko ozemlje v takratni Kraljevini Jugoslaviji, ločevali so pa med lovskimi kartami in lovskimi kartami za lovsko varstveno osebje, ki so pripadali samo lovskim čuvajem. 
+Po razdelitvi slovenskega ozemlja na Ljubljansko in Mariborsko oblast, so se spet pojavili nesporazumi pri nekaterih lovcih, saj je vsaka oblast imela različna lovska pravila. Leta 1920 so občinska lovišča zavzemala 86\% vse lovske površine na Slovenskem, preostalih 14\% pa je sodilo k lastnim loviščem. 
+Leta 1931 so z banovinsko odredbo v Jugoslaviji spet uskladili zakonodajo, kar so predstavniki Kmetijske družbe želeli izkoristiti. 
+Sklicali so posvet, na katerem so želeli uvrstiti zajca med nezaščiteno divjad, s čimer se predstavniki Slovenskega lovskega društva niso strinjali. 
+Nesoglasje med lovci in sadjarji, o vprašanju poljskih zajcev, je trajalo vse do druge svetovne vojne. 
+V tem času so leta 1934 na loviščih veljale slabe razmere, zaradi slabega nadzora lovišč, premalo plačanih lovskih čuvajev in prekratke zakupne dobe.
+
+LOVSKA KARTA ALI BANOVINA ALI LJUBLJANSKA IN MARIBORSKA OBLAST !!!!!!!!!!!!!!
+
+\subsection{Slovensko lovsko društvo}
+
+Med prvo svetovno vojno je bilo veliko članov Slovenskega lovskega društva vpoklicanih v vojsko. 
+Po tem so se dolžnosti društva povečale, zaradi raznih novonastalih problemov povezanih z lovstvom (opustošena lovišča, razdrobljena zakonodaja, razmah divjega lovstva). 
+Društvo je začelo ustanavljati podružnice, organizirati sestanke in predstavitve. 
+Vodstvo društva je predstavljal odbor s predsednikom, podpredsednikom in 25-imi odborniki. 
+Najvišji organ društva je bil občni zbor, sklican vsako leto. Na teh zborih so odločali o spremembah pravil, poročil odbora in volili predsednika, podpredsednika ter odbornike. Vsaka podružnica je imela svoj odbor, katerega mandat je trajal eno leto. 
+Kasneje, leta 1926 so podaljšali mandat odbornikov na tri leta. 
+Leta 1924 se je zaradi takratne upravne razdelitve društvo razdelilo na ljubljansko in mariborsko sekcijo, leta 1929 pa je zaradi uvedbe novih upravnih enot, banovin, celotno slovensko ozemlje pa je bilo združeno v Dravski banovini in je bila lovska zveza poenotena. 
+
+(stran 138 slika prikaz števila članov SLD od 1919 do 1936) !!!!!!!!!!!!!!!!!!!!!!!!! 
+
+V tem času, takoj po prvi svetovni vojni so začeli izdajati društveno glasilo Lovec, ki so ga člani prejemali brezplačno. 
+Glasilo je bilo tako kakovostno, da so ga leta 1921 izobraževalnim ustanovam priporočili šolam na višjem šolskem svetu. 
+Zaradi neplačevanja članarine, pa se je društvo znašlo v finančni stiski. 
+Upali so, da bodo s povečanjem števila članstva povečali prihodke. Za tiskanje glasila so namreč porabljali kar 85\% članarine.(142) 
+Prisiljeni so bili večkrat povečevati članarino.
+
+(146-149 prireditve, strelske tekme) Slovensko lovsko društvo je leta 1922 priredilo tudi lovsko razstavo v Ljubljani, kjer so razstavili in ocenjevali 421 lovskih trofej. 
+Pri pripravi razstave so sodelovali s Slovenskim planinskim društvom, Društvom ostrostrelcev v Ljubljani in Muzejskim društvom. 
+Dogodek so uporabili kot prikaz gospodarskega pomena lovstva. 
+Leta 1930 so se lovci udeležili mednarodne lovske razstave v Leipzigu, kjer so v mednarodni konkurenci dobili tri odlikovanja, pri pokrajinskem ocenjevanju pa 52. 
+Z dovoljenjem vojaških oblasti so leta 1922 uspeli člani društva organizirati prve strelske tekme, na katerih so tekmovali lovci, vojaki, mladinci in ostali udeleženci. Najboljšemu strelcu je bil podeljen naslov lovskega mojstrskega strelca in pokal Slovenskega lovskega društva. 
+Strelske tekme so od takrat naprej organizirali vsako leto v Ljubljani ali Mariboru.
+
+SLIKA STRELSKIH TEKEM ALI PRIREDITVE V LJUBLJANI !!!!!!!!!!!!!!!!!!!!!!!
+
+\subsection{Enotni zakon o lovu 1935}
+ 
+V novem lovskemu zakonu, je bila lovska pravica povezana z zemljiško lastnino, divjad pa je bila opredeljena kot »res nullis« oziroma nikogaršnja last.
+V Kraljevini Jugoslaviji je bil izdan leta 1931, v Dravski banovini pa je bil sprejet leta 1935. 
+Ohranjena je bila delitev ozemelj na lastna lovišča, ki so morala upravljati najmanj 200 hektarjev, in občinska lovišča z najmanj 500 hektarji.
+Lastniki lovišč so morali prevzeti izolirane površine občinskih lovišč (enklave), ki so mejila na njihova lovišča, sicer je obstajala možnost, da bodo njihova lovišča pristala na dražbi. 
+Zakon je razdelil divjad na zaščiteno z lovopustom (čas v letu, ko je lov (na nekatere živali) prepovedan FRAN), na nezaščiteno divjad in na zverjad. 
+Lovopust je bil namenjen temu, da so se lahko zaščitene divjadi razmnoževale. 
+Nezaščiteno divjad so lahko lovili lastniki posesti na svojem zemljišču, vendar le tako, da niso škodovali zaščiteni divjadi.
+Za lov na nezaščitene divjadi in zverjad so lahko lovci uporabljali razne pasti in strupe, za katere pa je moral lovec dobiti dovoljenje.
+Zakupna doba je bila podaljšana na dvanajst let, pogoj za pristop na dražbi pa je bila veljavna lovska karta.
+Lovišč niso mogle vzeti v zakup lovska društva, zakupniki so bile lahko samo fizične osebe. Zakon je tudi določil največje število zakupnikov, kar je bilo odvisno od velikosti lovišča.
+
+(176-178) LOVSKE RAZMERE po sprejemu zakona
+Po uvedbi zakona se je zmanjšalo zanimanje za lov in število legalnih lovcev.
+Upadlo je število lastnih lovišč na 260 v letu 1935, 277 jih je bilo namreč priključeno občinskim loviščem.
+Tudi število občinskih lovišč se je zmanjševalo zaradi združevanja lovskih površin. 
+Zakupnine so se zaradi povečanja lovišč in predolgih zakupnih dob zmanjšale in s tem tudi konkurenčnost draženja.
+Povprečje iz leta 1935, ko je za hektar lovišča bilo treba plačati 1,30 dinarja, je do leta 1938 padlo na 1,04 dinarja.
+V splošnem se po sprejemu lovskega zakona način delovanja društev ni zelo spremenilo. 
+
+LOVSKA KARTA ALI SLIKA POVEZANA Z ZAKONOM 1935 !!!!!!!!!!!!!!!!!!!!!!!!!
+
+\subsection{Lovstvo med drugo svetovno vojno}
+
+V okupiranem delu slovenskega ozemlja so oblasti takoj zahtevale obvezno oddajo vsega orožja. 
+Lov so začeli izvajati oficirji in drugi vojaki, v Ljubljanski pokrajini je bila namreč izdana prepoved vsakega neupravičenega lova in ribolova. 
+Od aprila 1942 dalje pa je bil lov nasploh prepovedan. 
+Na osvobojenem ozemlju je leta 1943 in 1944 začela veljati nova lovska zakonodaja, ki je bila pod pristojnostjo odseka za gospodarstvo. 
+Tega je vodil inž. Franjo Sevnik. Izhajal je iz stališča, da je zakupni sistem boljši od prostega lova. 
+V zakupnem sistemu ima namreč zakupnik interes, da skrbi za lovišče. 
+Razpravljali so tudi o poljskem zajcu, ki je še vedno povzročal ogromno škode kmetijstvu. 
+Večinsko mnenje je bilo, da se poljskega zajca uvrsti med nezaščiteno divjad.
+Pri pripravi povojne zakonodaje je bilo enotno mnenje, da ima lov gospodarski pomen, po drugi strani pa je treba zaščititi prebivalstvo pred preveliko škodo, ki jo povzročata škodljiva divjad ter zverjad. 
+
+SLIKA NEKAJ Z DRUGO SVETOVNO VOJNO ALI FRANJO SEVNIK !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+\subsection{Lovstvo v začetku druge Jugoslavije/SFRJ}
+
+Odlok o začasnem izvrševanju lova je definiral lovstvo za leto 1945. 
+Lovec je potreboval lovsko dovolilnico, varstvena zakonodaja pa je ostala enaka predvojni.
+Istočasno z nastankom Odloka o začasnem izvrševanju lova so razmišljali o dolgoročnih rešitvah.
+Želja je bila, da bi bile lovske zadruge edini zakupniki lovišč, vsaka bi imela po največ dve lovišči. 
+Prvo na območju prebivališča večine članov, drugo pa v istem okrožju.
+Zadruga bi morala imeti najmanj 5 in največ 25 članov.
+Državna rezervatna lovišča so bila ustanovljena z Odlokom Ministrstva za gozdarstvo Narodne vlade Slovenije v letu 1945, namenjena so bila za šport in reprezentanco.
+Razglašene so bile tudi denarne nagrade za pokol volkov, čigar sredstva so izhajala iz 30\% iztržka (206) od prodanih lovskih dovolilnic. 
+Ker so kmalu ugotovili, da je bilo sredstev preveč, so ustvarili lovski sklad.
+
+Leta 1946 je bil sprejet še en Začasni zakon o lovu, kjer so razdelili lovišča na državna, državnorezervatna, zadružna in okrajna zakupna lovišča. 
+Državne posesti z najmanj 500 hektarjev so razglasili za površine za lovišča. 
+Divjad je bila ločena na zaščiteno in nezaščiteno. 
+Poudarek je bil na zaščiti kmetijskih in gozdnih kultur. 
+Oblasti so razglasile, da (217) je Slovenija »ogrožena po volku in divji svinji«. 
+Izjemoma so lovci lahko uporabljali strupe pri lovu na volke in so za njihovo uplenitev dobivali nagrade. 
+Zveza lovskih društev v Ljubljani je predlagala lovcem, naj organizirajo načrtno pokončevanje volkov s strihninom in cianovodikom v ampulah (220). 
+Načrtno pokončevanje volkov se je nadaljevalo tudi v letu 1947. 
+Pomembna naloga lovskih čuvajev je bilo tudi pobijanje potepuških psov in mačk, ki so jih šteli za lovstvu škodljive živali. 
+Lovski skladi so bili ustvarjeni za izplačevanje odškodnin za škode divjadi v posameznih okrajih, obstajal pa je tudi osrednji sklad Ljudske republike Slovenije (218).
+
+Splošni zakon o lovu (sprejet leta 1947) je veljal na celotnem območju Federativne ljudske republike Jugoslavije, kjer so dojemali divjad kot splošno ljudsko premoženje, lov pa kot gospodarsko panogo. 
+Zakon je veljal, dokler niso na posameznih republikah določili svojega zakona.
+Dokazali so (244), da je lovstvo zelo dobičkonosna dejavnost, ki prinaša materialne koristi, še zlasti pri lovu na srnjad.
+Republiški zakon je ločil divjad na zaščiteno in nezaščiteno, lovišča pa so bila razdeljena na državna lovišča in lovišča lovskih organizacij.
+Samo člani lovskih društev/družin z lovskim dovoljenjem so smeli loviti. 
+Lovska družina je bila definirana kot prostovoljno združenje državljanov, katere naloga je bila izvrševanje lovskega načrta, razvijanje lovske discipline in podobno. 
+Lovska društva so se združevala v lovske podzveze, le-te v lovske zveze ljudskih republik, vse pa so bile članice Glavne lovske zveze Jugoslavije.
+
+NEKA NAVADNA SLIKA IZ ČASA 50 ali 60 let iz SFRJ !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+\subsection{Lovstvo v Ljudski Republiki Slovenije}
+
+Ljudska republika Slovenija je 1949 sprejela republiški Zakon o lovu, s katerim je na slovenskem ozemlju prenehal veljati Splošni zakon o lovu.
+Divjad je bila tokrat razdeljena na veliko in malo ter zaščiteno in nezaščiteno. 
+Minister za gozdarstvo je določil lovopust za zaščitene vrste divjadi in imel pravico prepovedati lov posamezne divjadi za določen čas. 
+Volkove, vrane, srake in kune so lahko z dovoljenjem okrajnih ljudskih odborov lahko zastrupljali (235).
+Lovišča so bila razdeljena na splošno državnega, republiškega in lokalnega pomena. 
+Za vsako lovišče so morali lovski upravičenci ustvariti kataster (uradni seznam zemljišč s podatki o parcelah FRAN) (236). 
+Za vsakih 2.000 hektarjev so lovske družine morale določiti enega lovskega čuvaja, ki je bil javni uslužbenec. 
+Škodo, ki so jo napravile zaščitene divjadi, so upravljavci lovišč povrnile le, če je lastnik zemljišča imel zavarovanje.  
+
+Lovske organizacije so morale od Zakona o lovu dalje izvajati lovske načrte in imeti svoja pravila (258). 
+Lovske družine so skrbele za napredek lovstva, pravilno izvajanje lovskega načrta in vodile statistiko o lovu. 
+Vsak polnoletni državljan, ki je imel pravico do orožnega lista in je bil izprašan lovec, je bil lahko član lovske družine. 
+Ta je morala imeti najmanj osem članov in je lahko izključila člana, ki ni lovil usklajeno z lovskim načrtom. 
+Uplenjena divjad je bila last družine, ki pa so jo razdelili glede na sklepe posvetov posamezne lovske družine. 
+Te so imele odbor, preglednike, družinski posvet in občni zbor. 
+Na koncu leta 1951 je bilo v Sloveniji 346 lovskih družin, katerih lovišča so zajemala 1.640.000 hektarjev (262).
+Na občnem zboru 1965 so poročali, da se je število koristnih divjadi bistveno povečalo in ponekod preseglo predvojno število (276).
+
+SLIKA NEKAJ V ZVEZI Z LOVSTVOM IZ 60s ALI NEKAJ V ZVEZI Z SLOVENSKO REPUBLIKO ZNOTRAJ SFRJ !!!!!!!!!!!!
+
+\subsection{[63-106 Sto let v kraljestvu zlatoroga] Lovska zveza Slovenije v SFRJ }
+
+V organizacijskem smislu se je leta 1947 dotakratna Zveza lovskih društev preimenovala v Lovski svet Ljudske republike Slovenije[65]. 
+V povojnem obdobju so skoraj vsi člani lovskih organizacij ohranili svoje pozicije, razen seveda tistih, ki so se med vojno postavili na stran okupatorjev, vodilne pozicije pa so s časoma prevzeli »preverjeni partijski kadri«[65]. 
+Leta 1948 je Lovec spet postal uradno glasilo in je v prvih letih pisal o »novem« redu lovstva[66].
+Znanje lovcev je bilo v povojnem času dokaj slabo, kar priča dejstvo, da je leta 1951 lovski izpit opravilo le 69\% kandidatov [67].
+Vodstvo Lovskega sveta je odkrivalo, da so v mnogih lovskih družinah člani prekomerno izkoriščali lovišča, kar so razložili s prevelikim deležem plenilcev.
+Lovska zveza Ljudske republike Slovenije, kjer so bile združene vse lovske podzveze, se je leta 1954 preimenovala v Republiško lovsko zvezo Ljudske republike Slovenije[69], čigar najpomembnejši organ, občni zbor, je bil sestavljen iz delegatov okrajnih lovskih zvez.
+Povečala se je decentralizacija lovstva, kar je čez nekaj let pripomoglo k razvoju lovstva.
+Lovska zveza LRS (Ljudske republike Slovenije) je razreševala konflikte na regionalni ravni. 
+Kljub nasprotovanju na lokalnem nivoju, je Izvršni svet leta 1962 prepovedal uporabo cianovodika pri lovu. 
+
+Z novim zakonom o lovstvu leta 1966 poudarek lovstva ni bil več na gospodarstvu, ampak so začeli pojmovati lovstvo kot športno, gospodarsko in posebno dejavnost.
+Lovstvo je bilo usklajeno z gozdarskimi in kmetijskimi dejavnostmi[71]. 
+Lovske družine so morale oblikovati ukrepe in pristope za dolgoročno oziroma trajnostno ohranitev divjadi. 
+V splošnem pa ni bilo velikih sprememb v organizaciji po zakonu leta 1966[72], z izjemo tega, da je za lovske družine članstvo v Lovski zvezi Slovenije postalo prostovoljno[72]. V nekaterih primerih so začele nastajati partijske organizacije znotraj lovskih družin, saj je pri lovskih dejavnosti sodelovalo veliko partijskih in političnih funkcionarjev[73].
+V Zakonu o varstvu, gojitvi in lovu divjadi ter o upravljanju lovišč leta 1976 je bil velik poudarek na ekoloških načelih. 
+Divjad je bila zaščitena z zakonom in bila razdeljena na vrste, ki so bile zavarovane vso leto, zavarovane z lovopustom in vrste, ki so bile lahko lovljene celotno leto. 
+Zakon so kritizirale razne lovske družine zaradi pretiranega zavarovanja zveri, kar je zmanjševalo število srnjadi[74].
+Lovskim organizacijam so bila za nedoločen čas podana v upravljanje lovišča brez odškodnine[75], zakup je postal prepovedan. 
+Med lovsko organizacijo avstrijske Koroške in LZS je bil leta 1980 podpisan sporazum o obnovitvi interesne skupnosti za gojitev gamsov[77].
+Leta 1987 je bila 80 letnica ustanovitve lovske organizacije na Slovenskem.  
+
+NEKAJ NAJDI !!!!!!!!!!!!!!!!!!!!!!!
+
+\subsection{[83-104 Sto let v kraljestvu zlatoroga] LOVSTVO V SAMOSTOJNI SLOVENIJI}
+Lovska zveza Slovenije je v času volitev leta 1990 v glasilu Lisjak poudarila, da je nevtralna organizacija, ki se ukvarja samo z lovstvom. 
+Med desetdnevno vojno se je vodstvo Lovske zveze Slovenije pogovarjalo s Teritorialno obrambo o tem, kako lahko lovci nudijo pomoč slovenski Teritorialni obrambi[84].
+Le-ta navodila so bila poslana vsem lovskim družinam, kar je prispelo k temu, da so se prijavili številni lovci v takratne vojaške formacije[84].
+Lovska organizacija je tudi pomagala pri diplomatskih aktivnostih, ki so potekala takoj po začetku vojaških spopadov.
+Slovenija je namreč postala članica Mednarodnega sveta za lovstvo in ohranitev divjadi preden je bila mednarodno priznana[85].
+Za obdobje 1990-1995 so lovske organizacije v Sloveniji prvič prepovedale lov na volkove, pri drugih živalskih vrstah pa so bile predlagane skrajšane lovske dobe[86]. 
+V letu 1993 so v LZS spet uveljavili občni zbor, upravni in nadzorni odbor, pred tem je lovska organizacija delovala po delegatskih načelih.
+V samostojni Sloveniji je lovska zakonodaja postala bolj podrejena nelovskim krogom in političnim strankam, kot pa lovskim organizacijam[88]. 
+Prevladovati je začelo mnenje, da bo v prihodnosti vedno manj lova s puško in da bo lov namenjen samo za zmanjševanje negativnih učinkov človeka na naravo.
+V Sloveniji so začeli s spremljanjem rjavega medveda s strani Biotehniške fakultete Univerze v Ljubljani in Lovske zveze Slovenije[91]. 
+S sprejemom Etičnega kodeksa leta 1998 je Lovska zveza Slovenije definirala moralna načela članov lovske organizacije in postavila temelj za obnašanje lovcev do narave, divjadi, družbe[92]… 
+Šele leta 2004 je bil po mnogih polemikah sprejet nov Zakon o divjadi in lovstvu, ki poudarja varstvo divjadi kot naravnega bogastva. 
+Divjad je jasno opredeljena in poseg v delovanje je namenjen samo uravnavanju ravnovesja ekosistema s čim manjšim posegom človeka[97].
+Novost zakona je ustanovitev novih  lovskoupravljalskih območij. 
+To so ekološke celote, ki jih določajo naravni dejavniki, zahteve živali ter naravne ali umetne ovire[98].
+Lovišča morajo biti veliko vsaj 2000 hektarjev in v njih lahko potekajo vsi ukrepi upravljanja z divjadjo[98].
+Zakon je predpisal, da lov ne sme škodovati ljudem ali povzročati nepotrebno trpljenje divjadi[99].
+
+NEKO MODERNO SLIKO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+\section{Organiziranost lovstva}
+
+Po zakonu so v Republiki Sloveniji edine veljavne lovske organizacije »lovske družine (LD), Lovska zveza Slovenije (LZS), lovišča s posebnim namenom (LPN), javni zavodi ter območno združenje upravljavcev lovišč (OZUL) in lovišč s posebnim namenom, združenih v lovskoupravljavskem območju (LUO)« {64}. 
+
+Krovna organizacija slovenskih lovcev je Lovska zveza Slovenije (LZS), katere članice so lovske družine, lovska društva in ostale organizacije, ki so povezane z divjadjo in varstvom narave oziroma vseh upravljalcev lovišč. 
+Temeljni cilji organizacije so skrb za etičnost pri lovu, lovsko kinologijo, zagotavljanje demokratičnih odnosov, sodelovanje z državnimi organi … 
+(SLIKA LOGOTIPA LZS)
+Konkretne naloge LZS so ozaveščanje lovcev, izvajanje izpitov za lovce, ukvarjanje z razvojem kinologije, izdajanje lovskih izkaznic in sodelovanje pri znanstvenem delu, povezanem z divjadjo{63}. 
+Svojim članom nudi strokovno in organizacijsko pomoč. 
+LZS se vključuje v mednarodne lovske organizacije, kot na primer CIC oziroma Mednarodni svet za lovstvo in ohranitev divjadi, ki združuje vse lovske organizacije sveta.
+Naloge CIC so ohranitev redkih in ogroženih živalskih vrt, spoštovanje globalnega okolja in ustvarjanje partnerskih odnosov lovskih organizacij sosednjih držav.{70} 
+ 
+Lovska družina je društvo, čigar člani so lahko lovci ali pa posamezniki, katerih interes je povezan z divjadjo in lovstvom. 
+Po treh letih, ko se je posameznik pridružil lovski družini, je nujno opraviti lovski izpit.
+Lovske družine upravljajo z lovišči preko koncesijskih pogodb (koncesija - dovoljenje države tuji trgovski ali industrijski družbi za opravljanje gospodarske dejavnosti na njenem področju FRAN).
+Naloge lovskih družin so: zapis evidenc o uplenjenih in najdenih poginulih živali, ocenjevanje škode zaradi divjadi, zbiranje podatkov o divjadi, izvajanje praktičnega dela lovskega izpita …{69} 
+ 
+Lovišča s posebnim namenom so območja v Republiki Sloveniji, v katerih potekajo specifične naloge s posebnim namenom.
+Ustanovljena so bila z Uredbo vlade in so : »Triglav Bled, Kozorog Kamnik, Pohorje, Fazan Beltinci, Kompas Peskovci, Prodi Razor, Jelen, Medved, Snežnik, Kočevska Reka, Žitna gora, Ljubljanski vrh.«{65}
+LPN ustanovi Vlada na predlog ministra zaradi posebnih nalog s področja razvoja populacij divjadi{67}. 
+Poglavitne naloge LPN so ohranjanje celovitosti in biotske raznovrstnosti lovišč ter divjadi vseh vrst, s tem da se upošteva naravno populacijsko razmerje. 
+LPN vsebuje letni načrt, ki določa število odstrela in izgub za posamezne vrste.
+
+»Območno združenje upravljavcev se ustanovi zaradi urejanja in usklajevanja skupnih nalog pri upravljanju z divjadjo.«{65}.
+»Lovskoupravljavsko območje (LOU) je širša velikopovršinska ekološka celota, na kateri živijo populacije ene ali več vrst divjadi …«{66}. 
+LOU je ustvarjen na podlagi ekoloških dejavnikov skupin populacij divjadi, ki živijo na večjem območju. 
+Meje določa Vlada na predlog pristojnega ministrstva, tako da se ne bi populacija delila, cilji LOU pa so ohranitev populacije divjadi ter njihovega okolja.
+
+NEKA SLIKA OD LOVSKE DRUŽINE ALI LZS ALI NEKAJ URADNEGA !!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+
+
+
+\chapter{Obstoječe stanje informacijskega sistema}
+\label{stanje}
+
+
+
+
+
+
+\section{IT infrastruktura}
+
+Za vzdrževanje strojno in programsko opremo na LZS je zadolženo podjetje Artbit, ki se spozna tudi na poslovno programsko opremo LZS.
+Eden od trenutnih problemov pri sodelovanju med LZS in podjetjem Artbit je pomanjkanje deljenja informacij. 
+Večkrat pride do situacij, kjer bi lahko težavo, ki je bila prepozno zaznana lahko predčasno rešili, ampak to člani Artbita šele prepozno izvejo.
+Pojavlja se tudi problem strojne opreme, saj se dostikrat zgodi, da so nekateri računalniki od posameznih članov LZS ali pa lovskih družin zastareli.
+To je predvsem problem pri delovanju novejših programskih oprem.
+Starejše strojne opreme so reciklirane, zaželene so pa strojne opreme z vsaj i5 procesorjem in vsaj 8 gigabajtov RAM-a.
+Trenutno je tudi opcija, da imajo vsi člani LZS omogočeno delo od doma.
+
+\section{Informacijski sistem Lisjak}
+
+Na LZS so leta 2003 sprejeli odličitev za nastanek informacijskega sistema Lisjak. 
+Lisjak vključuje spletno aplikacijo, zgrajeno po modulih, od katerih so je leta 2005 začela uporaba prvih treh modulov, to so članstvo, organizacijo in odvzem divjadi.
+Trenutni sistem (po informaciji 2022 PP Predstavitev Lovskega informacijskega sistema (LIS) „Lisjak" !!!!!!!!!!) vsebuje devet modulov (še lovska škoda in objekti, letni načrt lovišča, izobraževanje, kinologija, delo z mladimi, lovska kultura).
+Za odpravo tehničnih težav je skljenjena pogodba z zunanjim izvajalcem.
+Strokovne službe LZS, Območne lovske zveze, upravljalci lovišč, Območne zveze in lovske družine so glavni uporabniki Lisjaka.
+Dostop do aplikacije je omogočen le do uporabnikov, ki to potrebujejo za svoje funkcije (to so starešine, tahnikil, informatiki in strokovni tajniki).
+Trenutno je ca. 1700 aktivnih uporabnikov, zaradi zagotavljanja varnosti pa so obvezne menjave gesla na 6 mesecev.
+Vsebine modulov so prilagojene spremembam predpisov in pravil, kar omogoča nemoteno delovanje aplikacije.
+
+\section{Aplikacije za pisarniško poslovanje}
+
+Za računovodstvo LZS uporablja storitve podjetja Vasco d.o.o (https://www.vasco.si/ !!!!!!!!).
+Ustanovljeno leta 1991, podjetje razvija programsko opremo za trgovino in računovodstvo, s poudarkom na usklajevanju z zakonodajnimi spremembami. 
+Ima 4.000 uporabnikov in ponuja rešitve za manjša in srednje velika podjetja.
+
+Za upravljanje z dokumentarnim gradivom v javni upravi LZS uporablja aplikacijo Krpan (https://nio.gov.si/nio/asset/informacijski+sistem+krpan-888 + PRIPONKE !!!!!!!!!!). 
+Krpan je nameščen v Državnem Računalniškem Oblaku (https://nio.gov.si/nio/asset/drzavni+racunalniski+oblak+dro?lang=sl !!!!!!!!) in podpira večpodjetno gostovanje.
+Uporavlja centralne šifrante, kar zagotavlja varnost in učinkovistost upravljanja dokumentov.
+Preko vmesnikov SOAP, REST ali WCF podpira povezave z drugimi informacijskimi sistemi.
+Za Krpan veljajo zelo specifične zahteve, saj kdor uporablja ta sistem, se priključi vladnega omrežja.
+V praksi to pomeni, da je potrebno imeti posebno fizično izolirano povezavo do vladnega omrežja.
+Trenutno so s strani LZS tudi pomisleki s Krpanom, saj je sistem preveč neprilagodljiv.
+Za nekatere postopke je potrebno toliko korakov, kjer bi bila bolj enostavna rešitev bolj primerna.
+
+Za elektronsko poštvo se uporablja Microsoft 365, ki je nademestil lastni poštni server.
+Veliko prednost Microsoft 365 je, da je za organizacije ki pridobijo licenco nevladne organizacije, na voljo brezplačnih 300 e-poštnih računov.
+Zunanjim oblikovalcem in lektorjem ( sodelavec založbe, gledališča, radia, ki pregleduje, jezikovno obdeluje, ocenjuje rokopise FRAN !!!!!!!) člani LZS preko elektronske pošte pošiljajo podatke za potrebe glasila Lovec.
+
+LZS je lastnik Windows strežnika, ki je pred kratkim prešel na virtualno okolje.
+Strežnik je ključnega pomena za deljenje datotek, predvsem za glasilo Lovec.
+Na strežniku je pa shranjenih skoraj dva terabajta raznih slik.
+
+LZS ima aplikacijo "ADREMA" VPRAŠAJ ROKA RUPNIKA !!!!!!!!!!!!!!!!!!!!!!!!!!!!, skozi katero spremlja svoje naročnike za revijo. 
+Članov lovskih družin je bilo leta 2022 namreč okoli 20.000 (https://www.lovska-zveza.si/wp-content/uploads/2023/06/LETNO-POROCILO-LZS-2022-koncno.pdf), zato ni praktična uporaba Excella.
+
+
+
+\section{Ostale aplikacije}
+
+KAJ TUKAJ SODI !!!!!!!!!!!!!!!!!
+
+\section{Integracija z informacijskimi sistemi drugih deležnikov}
+
+Z Zavodom za gozdove Slovenije (ZGS), ki organizirajo LPN (lovišča s posebnim namenom), LZS deli podatke o divjadi od lovskih družin.
+Podatki so poslani v Excell formatu, ostale podatke pa črpa ZGS iz lovišč za posebne namene preko svojih sistemov, ki pa so zastareli.
+ZGS ima trenutno projekt e-gozdarstvo, kjer poteka digitalizacija vseh področjih gozdarstva, vključno z lovstvom.
+
+(NISEM NAPISAL TUKAJ O POTENCIALU ZA ZDRUŽENJE VSEH PODATKOV V LISJAK SAJ TUKAJ GOVORIM LE O TRENUTNEM STANJU ZATO TUDI NI VELIKO ZA NAPISATI)
+
+\chapter{Analiza intervjujev s predstavniki LZS in ZGS?}
+\label{ch2}
+
+
+
+Sestanki z vodstvom Lovske zveze Slovenije (v nadaljevanju LZS) so potekali od vključno 17. 5. 2024 do vključno DATUM!!!!!!!. 
+Pogovarjali smo se s člani LZS, ki so povezani z delovanjem informacijskega sistema oziroma bi njihovo področje dela bilo lahko izboljšano z uvedbo oziroma vpeljavo informacijskih postopkov.
+Intervjuje smo izvedli z naslednjimi člani LZS: s Francem Krivcem, predsednikom Komisije za lovska odlikovanja in priznanja, s Srečkom Kropetom, predsednikom Komisije za lovsko čuvajsko službo, s Tino Mate, predsednico Komisije za mlade in lovstvo, z Ianom Martinom Koštomajem, predsednikom Komisije za lovsko kinologijo, DOPOLNI!!!!!!! in s predsednikom Lovske zveze Slovenije Alojzom Kovšco. 
+
+\section{Predstavitev načina izvajanja intervjujev}
+
+Intervjuji so potekali preko Microsoft Teamsov zaradi več razlogov. 
+Člani LZS so lahko izbrali najbolj ustrezen termin, prevoz ni bil potreben in možno je bilo snemanje sestankov.
+Ker so bili sestanki posneti, ni bilo treba upočasniti pogovora zaradi izdelave zapiskov.
+V povprečju so intervjuji trajali 30 minut.
+Vsakemu sogovorniku je bil pred sestankom posredovan sklop točk, tako da so bili seznanjeni s tematiko pogovora in da so se na intervju lahko vnaprej pripravili. 
+
+Struktura pogovora je bila orientirana na naslednje točke:
+\begin{enumerate}
+    \item Predstavitev komisije
+    \item Opis trenutnega stanja digitalizacije pri delovanju komisije
+    \item Opis problemov pri delovanju komisije
+    \item Priporočila za izboljšavo delovanja komisije v zvezi z digitalizacijo
+\end{enumerate}
+
+
+Najprej je vsak član LZS na kratko predstavil področje komije, njene naloge in odgovornosti. 
+Opisano je bilo področje delovanje komisije, vsebina njihovega dela in strokovno znanje, ki je potrebno za delovanje komisije. 
+Pri opisu trenutnega stanja digitalizacije je bil pogovor usmerjen k načinu izvajanja sestankov in urejanju datotek različnih komisij LZS. 
+Zanimalo nas je, če sestanki kadarkoli potekajo na daljavo in če, preko katerih kanalov. 
+Zanimala nas je organiziranost datotek, ki jih pri svojem delu uporabljajo, kako so formulirane, izpolnjene in shranjene, in če je kakršen koli del procesa avtomatiziran.
+V procesu opisovanja trenutnega stanja so člani LZS pogosto takoj prešli na naslednjo točko pogovora in opisali probleme, ki nastanejo pri postopku delovanja komisij. 
+Na koncu smo skupaj oblikovali predloge o izboljšavi delovanja komisij z digitalizacijo. 
+
+\section{Analiza intervjujev s predsedniki komisij}
+
+Prva pogosta opazka v intervjujih je bila, da ni usklajenega načina za izvajanje sestankov. 
+Nekatere komisije izvajajo sestanke samo v živo zaradi različnih razlogov in ne na daljavo. 
+Eden od razlogov za to je usklajevanje vseh prisotnih na sestankih, saj nekateri starejši člani slabše razumejo digitalno tehnologijo in velikokrat prihaja do težav z uporabo aplikacij za sestanke na daljavo. 
+Problem teh sestankov je tudi, da sam sestanek traja dlje časa, saj komunikacija ni takojšnja oziroma prihaja do govorjenja drug čez drugega. 
+Še eno nasprotovanje sestankom prek spleta je, da odpade druženje po sestankih, kar pa članom komisij veliko pomeni. 
+In zato ima večina članov LZS preferenco za srečanja v živo.
+Tisti, ki uporabljajo sestanke na daljavo pa omenjajo prihranke v času, saj so člani sestankov geografsko zelo oddaljeni drug od drugega. 
+To je možno pri rednih sejah, kjer je število prisotnih na sestanku manjše in kjer vsi udeleženci znajo uporabljati platforme za videokonference.
+
+Lisjak
+	(OPIS LISJAKA PO POGOVORU Z USTVARJALCEM?)
+ 
+Spletna stran Lisjak je centralnega pomena za izvajanje dela večine komisij znotraj LZS. 
+Je platforma, kjer lovci prijavljajo kandidate za razna odlikovanja, za podelitev odlikovanj članom lovskih družin, shranjevanje posnetkov predstavitev in predavanj za izobraževanje lovskih čuvajev …
+Lisjak uporabljajo komisije bolj kot podatkovno bazo, iz katere jemljejo podatke in jih nato sami preurejajo. 
+Večina intervjuvancev je zato priporočila razne možne izboljšave za Lisjaka, ki slonijo na ideji, da bi Lisjak že sam avtomatsko preurejal podatke ali pa da se podatki standardizirajo preden se vnesejo v Lisjak.  
+Eden od takih primerov so prijave kandidatov za odlikovanja.
+Prijave morajo biti napisane po pravilniku, nato pa so ročno preverjene in ocenjene. 
+Če bi Lisjak avtomatično zavrnil nepravilne prijave, ne bi bilo treba preverjati vse prijave ročno in bi se komisija lahko osredotočila na ocenjevanje prijav. 
+Naslednji predlog je, da postane pisanje poročil lovskih čuvajev podobno izpolnjevanju podatkovnih baz na Lisjaku.
+Trenutno so metode za pisanja poročil zelo različna, nekateri pišejo še ročno (analogno), drugi pa uporabljajo Microsoft Word.
+Možna rešitev, ki je bila omenjena, je avdio posnetek, ki ga nato program pretvori v besedilo. 
+Zadnji predlog o Lisjaku, ki je bil omenjen, je ustvarjenje foruma za vsa območja LZS in seznam FAQ –  Frequently Asked Questions oziroma pogosto zastavljena vprašanja na Lisjaku. 
+To bi bistveno pomagalo pri zmanjšanju vprašanj, ki jih dobi LZS ter služilo kot kratka predstavitev LZS in njenega delovanja.
+
+SLIKA LISJAKA !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+\section{Analiza intervjujev z vodstvom LZS}
+
+Vodstvo LZS je kot enega večjih problemov pri delovanju organizacije omenilo pomanjkanje komunikacije med člani LZS in člani lovskih družin.
+Trenutno na Lisjaku ni ažuriranih elektronskih naslovov za posamezne lovske družine in drugih kontaktnih podatkov. 
+Predlog, ki je bil postavljen za rešitev te dileme je, da bi bila ustvarjena domena lzs.si za elektronsko pošto, kjer bi vsaka lovska družina imela svoj naslov. 
+
+Velika težava pri delu LZS je tudi pomanjkanje arhiviranja podatkov pri nekaterih lovskih družinah. 
+Postopek arhiviranja ni enoten, zato je v nekaterih primerih nemogoče ali izredno težko priti do zaželenih podatkov.
+Znotraj LZS je uporabljen vladni arhivski sistem Krpan.
+Informacijski sistem KRPAN uvaja prilagodljivo rešitev za upravljanje z dokumentarnim gradivom v javni upravi, kar omogoča hitrejše in učinkovitejše delo zaposlenih. 
+Sistem zagotavlja varen zajem in upravljanje digitalnega gradiva ter podpira različne upravne funkcionalnosti s prijaznim uporabniškim vmesnikom.
+[https://nio.gov.si/nio/asset/informacijski+sistem+krpan-888]. 
+Sistem je dober za arhiviranje in iskanje datotek, omenjena pa je bila časovna zahtevnost za izpolnjevanje nekaterih uradnih dokumentov (npr. potrdil). 
+Možno je namreč, da je za izpolnjenje določene datoteke potrebno več oseb. 
+To pomeni, da se lahko postopek zaustavi ali zavleče zaradi ene osebe. 
+
+Poudarek pogovora je bil tudi o pomanjkanju informiranja javnosti o dogajanju v lovskih družinah. 
+Če javnost ni seznanjena in osveščena o tem kdo so člani organizacije in kaj so njihovi cilji, bodo lovske družine v javnosti slabo sprejete.
+Brez informacijske kulture pa ni relevantnih informacij o delu lovskih družin, to pa pomeni, da je težje zagovarjati v javnosti, da so zaupanja vredne organizacije.
+Informacije morajo biti pristne, verodostojne in pridobljene v realnem času.
+Le s takšnimi podatki je možno izboljšati postopke delovanja lovskih družin na področju informatike.
+Potrebna bi bila pravna določba o potrebnosti zbiranja podatkov na relevantnih področjih, nato izobraževanje tajnikov in starešin lovskih družin, da postane zbiranje podatkov učinkovite za potrebe LZS in javnosti.
+V intervjujih so bili  posebej omenjeni tajniki, kot najbolj ključni členi lovskih družin, na področju izobraževanja, saj se oni trenutno najbolj ukvarjajo z zbiranjem, urejanjem in filtriranjem podatkov lovskih družin.  
+
+Splošen problem pri izobraževanju odgovornih članov lovskih družin, ki je bil omenjen pri pogovorih, je način prikaza uporabnosti informatike. 
+Odlični informacijski sistem je sam po sebi neuporaben, če se člani lovskih družin ne zavedajo ciljev in vrednosti informatike. 
+Rečeno je bilo, da morajo biti prikazane otipljive vrednosti, ki so lahko pridobljene, s tem ko se začne sistematizirano zbiranje podatkov. 
+Način spremembe kulture lovskih družin o informatiki, se je delno že začelo s prihodom mlajših oseb v organizacije in s povečanjem izobrazbe trenutnih članov.
+
+Trenutni prihodek mnogih lovskih družin prihajajo od prodaje trofej. 
+Vodstvo razmišlja o potencialnih novih ali dodatnih storitvah, ki bi razširilo delovanje lovskih družin. 
+Eden od takih predlogov je bila možnost fotografiranja med lovom. 
+S tako uporabo informacijskega sistema, bi bila lahko zgrajena podatkovna baza kot osnova za analizo trga, kar bi omogočilo fokusirane storitve in povečanje dobičkov. 
+
+SLIKA FOTOLOV !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+\chapter{Anketa za ugotavljanje stanja informacijskih sistemov Lovskih družin}
+\label{stroka}
+
+\section{Zasnova ankete in anketnih vprašanj}
+
+\section{Predstavitev rezultatov ankete}
+
+\section{Analiza rezultatov ankete}
+
+
+\chapter{Zaključek}  % poglavje dodal Solina
+\label{end}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\cleardoublepage
+%\addcontentsline{toc}{chapter}{Literatura}
+
+\printbibliography[heading=bibintoc,type=article,title={Članki v revijah}]
+https://www.overleaf.com/project/609ce2055f917cb2f776732e
+\printbibliography[heading=bibintoc,type=inproceedings,title={Članki v zbornikih}]
+
+\printbibliography[heading=bibintoc,type=incollection,title={Poglavja v knjigah}]
+
+\printbibliography[heading=bibintoc,title={Celotna literatura}]
+
+
+\end{document}
